@@ -1,0 +1,6 @@
+<h3>{{ object.title }}</h3>
+<small>By: {{ object.author.first_name }} {{ object.author.last_name }}</small><br/>
+{{ object.body }}
+<br>
+<br>
+<a href="{% url 'home'%}">Back</a>
