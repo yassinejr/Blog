@@ -1,3 +1,5 @@
+{% extends 'base.html' %}
+{% block content%}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -9,11 +11,16 @@
 <ul>
 {% for p in object_list %}
     <li>
-        <a href="{% url 'article-detail' p.pk %}">{{ p.title }}</a> - {{ p.author.first_name }} {{ p.author.last_name }}<br/>
+        <a href="{% url 'article-detail' p.pk %}">{{ p.title }}</a> - {{ p.author.first_name }} {{ p.author.last_name }} - <small><a href="{% url 'update_post' p.pk %}">[Edit]</a></small> - <small><a href="{% url 'delete_post' p.pk %}">[Delete]</a></small><br/>
         {{ p.body }}
+        <br>
+        <br>
+        {{p.posted_at}}
     </li>
 {% endfor %}
 </ul>
 
 </body>
 </html>
+
+{% endblock%}
