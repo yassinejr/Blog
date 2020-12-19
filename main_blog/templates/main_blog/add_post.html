@@ -1,7 +1,7 @@
-{% extends 'base.html' %}
+{% extends 'main_blog/base.html' %}
 
 {% block content%}
-
+{% if user.is_authenticated %}
 <h1>Add post</h1>
 <br/><br/>
 
@@ -12,4 +12,9 @@
             <button class="btn btn-secondary">Post</button>
         </div>
     </form>
+{% else %}
+<div class="alert alert-warning" role="alert">
+  Please login again to add posts
+</div>
+{% endif%}
 {% endblock %}
