@@ -1,0 +1,22 @@
+{% extends 'main_blog/base.html' %}
+
+{% block title %}
+{{ object.title }}
+{% endblock %}
+
+{% block content%}
+
+<h3>{{ object.title }}</h3>
+
+    <small> by: {{ object.author.first_name }} {{ object.author.last_name }} </small>
+    {% if user.is_authenticated %}
+        - <small><a href="{% url 'update_post' object.pk %}">[Edit]</a></small>- <small><a href="{% url 'delete_post' object.pk %}">[Delete]</a></small><br/>
+    {% endif %}
+    <hr>
+    {{ object.body|safe }}
+    </br></br>
+        {{object.posted_at}}
+    </br>
+    <a href="{% url 'home'%}" class="btn btn-primary">Back</a>
+
+{% endblock %}
