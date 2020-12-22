@@ -1,0 +1,35 @@
+{% extends 'main_blog/base.html' %}
+{% block content%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Post of {{cats}}</h1>
+{% for c in categories %}
+    <h2>{{ c }}</h2>
+{% endfor %}
+{{cats}}
+{{category}}
+<ul>
+    {% for p in posts %}
+        <li>
+            <a href="{% url 'article-detail' p.pk %}">{{ p.title }}</a> by: - {{ p.author.first_name }} {{ p.author.last_name }}
+            {% if user.is_authenticated %}
+                - <small><a href="{% url 'update_post' p.pk %}">[Edit]</a></small>- <small><a href="{% url 'delete_post' p.pk %}">[Delete]</a></small><br/>
+            {% endif %}
+            <hr>
+            {{ p.body|slice:":200"|safe }}
+            <br>
+            <br>
+            {{p.posted_at}}
+        </li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
+
+{% endblock%}
