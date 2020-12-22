@@ -11,6 +11,13 @@
             {{form.as_p}}
             <button class="btn btn-secondary">Post</button>
         </div>
+        <script>
+<!--            Adding this js code to send back the user already logged in to our backend -->
+<!--            so identify automatically the user while adding a post-->
+            var name = "{{ user.id }}";
+<!--            the element with id author is the dropdown already hidden in it form file-->
+            document.getElementById("author").value = name;
+        </script>
     </form>
 {% else %}
 <div class="alert alert-warning" role="alert">
