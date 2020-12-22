@@ -1,0 +1,22 @@
+{% extends 'main_blog/base.html' %}
+
+{% block content%}
+{% if user.is_authenticated %}
+    {% if user.is_superuser %}
+        <h1>Edit post</h1>
+        <br/><br/>
+
+        <form method="POST">
+            <div class="mb-3">
+                {% csrf_token %}
+                {{form.as_p}}
+                <button class="btn btn-secondary">Update</button>
+            </div>
+        </form>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+          Please login again to update posts
+        </div>
+    {% endif %}
+{% endif %}
+{% endblock %}

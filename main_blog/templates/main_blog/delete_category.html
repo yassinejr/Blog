@@ -1,0 +1,25 @@
+{% extends 'main_blog/base.html' %}
+
+{% block content%}
+{% if user.is_authenticated %}
+    {% if user.is_superuser %}
+        <h1>Delete post</h1>
+        <br/><br/>
+
+        <div class="alert alert-danger" role="alert">
+          Are you sure you want to delete {{ object }} ?
+        </div>
+        <form method="POST">
+            <div class="mb-3">
+                {% csrf_token %}
+                {{form.as_p}}
+                <input type="submit" class="btn btn-danger">Confirm</input>
+            </div>
+        </form>
+    {% else %}
+        <div class="alert alert-danger" role="alert">
+          You don't have access to delete this post, please login and try again
+        </div>
+    {% endif%}
+{% endif%}
+{% endblock %}
