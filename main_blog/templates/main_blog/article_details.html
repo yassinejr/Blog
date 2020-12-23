@@ -20,5 +20,24 @@
         {{object.posted_at}}
     </br>
     <a href="{% url 'home'%}" class="btn btn-primary">Back</a>
-
+    </br></br>
+    <hr>
+    </br>
+    <form action="{% url 'like_post' object.pk %}" method="POST">
+        {% csrf_token %}
+            {% if user.is_authenticated %}
+                {% if liked %}
+                <button type="submit", name="post_id", value="{{object.id}}", class="btn btn-danger btn-sm">
+                    Unlike
+                </button>
+                {% else %}
+                <button type="submit", name="post_id", value="{{object.id}}", class="btn btn-primary btn-sm">
+                    Like
+                </button>
+                {% endif %}
+            {% else %}
+                <small> <a href="{% url 'login'%}">Login to react with the post</a></small>
+            {% endif %}
+                - {{ total_likes }} likes
+    </form>
 {% endblock %}
