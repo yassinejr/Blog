@@ -1,7 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
-from django.views.generic.list import MultipleObjectMixin
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
+from django.http import HttpResponseRedirect
 from .models import *
 from .forms import *
 
@@ -43,11 +43,28 @@ class ArticleDetailView(DetailView):
     model = Post
     template_name = 'main_blog/article_details.html'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *args, **kwargs):
         # Call the base implementation first to get a context
         context = super().get_context_data(**kwargs)
+        post = get_object_or_404(Post, id=self.kwargs['pk'])
+        total_likes = post.total_likes()
+
+        liked = False
+        if post.likes.filter(id=self.request.user.id).exists():
+            # post.likes.remove(self.request.user)
+            liked = True
+        # else:
+        #     if self.request.user.is_authenticated:
+        #         post.likes.add(self.request.user)
+        #         liked = False
+        #     else:
+        #         raise Exception("Error")
+
         # Add in a QuerySet of all the categories
         context['categories_list'] = Category.objects.all()
+        context['total_likes'] = total_likes
+        context['liked'] = liked
+        print(liked)
         return context
 
 
@@ -167,3 +184,16 @@ def category_view(request, cats):
     print(type(categories))
     print(type(category_posts))
     return render(request, 'main_blog/categories.html', context)
+
+
+def like_post(request, pk):
+    post = get_object_or_404(Post, id=request.POST.get('post_id'))
+    liked = False
+    if post.likes.filter(id=request.user.id).exists():
+        post.likes.remove(request.user)
+        liked = False
+    else:
+        post.likes.add(request.user)
+        liked = True
+
+    return HttpResponseRedirect(reverse('article-detail', args=[str(pk)]))

@@ -28,6 +28,7 @@ class Post(models.Model):
     body = models.TextField()
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True)
     posted_at = models.DateTimeField(auto_now_add=True)
+    likes = models.ManyToManyField(User, related_name='blog_posts')
 
     def __str__(self):
         return str(self.title) + ' | ' + str(self.author)
@@ -36,3 +37,6 @@ class Post(models.Model):
         from django.urls import reverse
         # return reverse('article-detail', args=[str(self.id)])
         return reverse('home')
+
+    def total_likes(self):
+        return self.likes.count()
