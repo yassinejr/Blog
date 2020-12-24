@@ -22,7 +22,7 @@
             - <small><a href="{% url 'update_post' p.pk %}">[Edit]</a></small>- <small><a href="{% url 'delete_post' p.pk %}">[Delete]</a></small><br/>
         {% endif %}
         <hr>
-        {{ p.body|slice:":200"|safe }}
+        {{p.snippet}}
         <br>
         <br>
         {{p.posted_at}}
