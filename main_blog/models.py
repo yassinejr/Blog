@@ -3,6 +3,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User
 from datetime import datetime, date
+from ckeditor.fields import RichTextField
 
 
 # Create your models here.
@@ -25,7 +26,8 @@ class Category(models.Model):
 class Post(models.Model):
     title = models.CharField(max_length=120)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    body = models.TextField()
+    # body = models.TextField()
+    body = RichTextField(blank=True, null=True)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True)
     posted_at = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name='blog_posts')
