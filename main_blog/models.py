@@ -28,6 +28,7 @@ class Post(models.Model):
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     # body = models.TextField()
     body = RichTextField(blank=True, null=True)
+    snippet = models.CharField(max_length=255)
     category = models.ForeignKey('Category', on_delete=models.CASCADE, null=True, blank=True)
     posted_at = models.DateTimeField(auto_now_add=True)
     likes = models.ManyToManyField(User, related_name='blog_posts')
