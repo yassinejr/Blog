@@ -1,28 +1,31 @@
 {% extends 'main_blog/base.html' %}
-
+{% load static %}
 {% block title %}
 {{ object.title }}
 {% endblock %}
 
 {% block content%}
+</br>
+<a href="{% url 'home'%}" class="btn btn-primary">Back</a>
+</br></br>
 <h3>{{ object.title }}</h3>
-<h2></h2>
-    <small>{{ object.category }} by: {{ object.author.first_name }} {{ object.author.last_name }} </small>
-
+    <h4> - {{ object.category }} -</h4>
+    <br>
+    <small>by: {{ object.author.first_name }} {{ object.author.last_name }} </small>
+    <br>
+    <small>posted at: {{object.posted_at}}</small>
     {% if user.is_authenticated %}
         {% if user.id == object.author.id %}
             - <small><a href="{% url 'update_post' object.pk %}">[Edit]</a></small>- <small><a href="{% url 'delete_post' object.pk %}">[Delete]</a></small><br/>
         {% endif %}
     {% endif %}
     <hr>
+    {% if object.header_image %}
+    <img src="{{ object.header_image.url }}" style="height:200px; width:200px">
+    {% endif %}
     {{ object.body|safe }}
     </br></br>
-        {{object.posted_at}}
-    </br>
-    <a href="{% url 'home'%}" class="btn btn-primary">Back</a>
-    </br></br>
     <hr>
-    </br>
     <form action="{% url 'like_post' object.pk %}" method="POST">
         {% csrf_token %}
             {% if user.is_authenticated %}
@@ -40,4 +43,37 @@
             {% endif %}
                 - {{ total_likes }} likes
     </form>
+<hr>
+<div class="card mb-3" style="max-width: 540px;">
+  <div class="row g-0">
+    <div class="col-md-4">
+      {% if object.author.profile.profile_pic %}
+        <img src="{{object.author.profile.profile_pic.url}}" style="height:150px; width:150px">
+      {% else %}
+        <img src="{% static 'accounts/images/default.png'%}" style="height:150px; width:150px">
+      {% endif %}
+    </div>
+    <div class="col-md-8">
+      <div class="card-body">
+        <h5 class="card-title">{{ object.author.first_name }} {{ object.author.last_name }}</h5>
+        <p class="small text-muted">
+            {% if object.author.profile.website_url %}
+                |<a href="{{ object.author.profile.website_url }}">Website</a>
+            {% endif %}
+            {% if object.author.profile.facebook_url %}
+                |<a href="{{ object.author.profile.facebook_url }}">Facebook</a>
+            {% endif %}
+            {% if object.author.profile.github_url %}
+                |<a href="{{ object.author.profile.github_url }}">Github</a>
+            {% endif %}
+            {% if object.author.profile.instagram_url %}
+                |<a href="{{ object.author.profile.instagram_url }}">Instagram</a>
+            {% endif %}
+        </p>
+        <p class="card-text">{{ object.author.profile.bio }}</p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock %}
