@@ -39,9 +39,10 @@
                 </button>
                 {% endif %}
             {% else %}
-                <small> <a href="{% url 'login'%}">Login to react with the post</a></small>
+                <small> <a href="{% url 'login' %}">Login to react with the post</a></small>
             {% endif %}
                 - {{ total_likes }} likes
+                <a href="{% url 'add_comment' object.pk %}"> add comment </a>
     </form>
 <hr>
 <div class="card mb-3" style="max-width: 540px;">
@@ -76,4 +77,18 @@
     </div>
   </div>
 </div>
+<hr>
+<h3> {{ object.comments.all.count }} Comments</h3>
+{% if not object.comments.all %}
+    <p> No comments yet, be the first one who comments this post!</p>
+{% else %}
+    {% for c in object.comments.all %}
+        <ul>
+            <strong>{{ c.author }} : </strong>
+            <p>{{ c.comment }}</p>
+            <small>{{ c.added_at }}</small>
+        </ul>
+    {% endfor %}
+{% endif %}
+
 {% endblock %}
