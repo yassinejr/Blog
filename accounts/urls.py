@@ -8,4 +8,5 @@ urlpatterns = [
     # path('password/',auth_views.PasswordChangeView.as_view(template_name='registration/change_password.html'), name='password'),
     path('password/', PasswordsChangeView.as_view(template_name='registration/change_password.html'), name='password'),
     path('password_success/', views.password_success, name='password_success'),
+    path('<slug:slug>', ProfileView.as_view(), name="my_profile"),
 ]

@@ -2,6 +2,14 @@
 
 {% block content %}
 </br>
+
+</br>
+{% if user.profile.profile_pic %}
+<img src="{{user.profile.profile_pic.url}}">
+{% endif %}
+</br></br></br>
+
+
 <div>
     <div class="form-group">
         <form method="POST">
